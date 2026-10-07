@@ -1,0 +1,9 @@
+{
+  "outputDirectory": "frontend/dist",
+  "rewrites": [
+    { "source": "/version.json", "destination": "/version.json" },
+    { "source": "/assets/(.*)", "destination": "/assets/$1" },
+    { "source": "/api/:path*", "destination": "/api" },
+    { "source": "/(.*)", "destination": "/index.html" }
+  ]
+}

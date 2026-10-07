@@ -1,0 +1,295 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@layer base {
+  html, body {
+    @apply bg-slate-50 text-slate-800 antialiased overflow-hidden;
+    height: 100dvh;
+    max-width: 100%;
+  }
+}
+
+@layer components {
+  .btn {
+    @apply inline-flex items-center justify-center gap-2 rounded-lg px-4 py-2.5 text-sm font-semibold transition-all duration-200 focus:outline-none focus:ring-2 focus:ring-offset-2 disabled:opacity-50 disabled:cursor-not-allowed;
+  }
+
+  .btn-primary {
+    @apply btn bg-primary-600 text-white hover:bg-primary-700 focus:ring-primary-500 shadow-sm;
+  }
+
+  .btn-secondary {
+    @apply btn bg-white text-slate-700 border border-slate-200 hover:bg-slate-50 focus:ring-primary-500;
+  }
+
+  .btn-danger {
+    @apply btn bg-red-600 text-white hover:bg-red-700 focus:ring-red-500;
+  }
+
+  .card {
+    @apply bg-white rounded-xl border border-slate-200 shadow-sm;
+  }
+
+  .input {
+    @apply w-full rounded-lg border border-slate-300 px-4 py-2.5 text-sm focus:border-primary-500 focus:outline-none focus:ring-2 focus:ring-primary-500/20 transition-colors;
+  }
+
+  .label {
+    @apply block text-sm font-medium text-slate-700 mb-1.5;
+  }
+
+  .badge {
+    @apply inline-flex items-center rounded-full px-2.5 py-0.5 text-xs font-medium;
+  }
+
+  .page-header {
+    @apply mb-8;
+  }
+
+  .page-title {
+    @apply text-2xl md:text-3xl font-bold text-slate-900;
+  }
+
+  .page-subtitle {
+    @apply text-slate-500 mt-1;
+  }
+}
+
+
+@keyframes slideIn {
+  from { transform: translateX(100%); opacity: 0; }
+  to { transform: translateX(0); opacity: 1; }
+}
+
+@keyframes shimmer {
+  0% { transform: translateX(-100%); }
+  100% { transform: translateX(100%); }
+}
+
+.shimmer-box {
+  position: relative;
+  overflow: hidden;
+  background-color: #f1f5f9;
+}
+
+.shimmer-box::after {
+  position: absolute;
+  top: 0;
+  right: 0;
+  bottom: 0;
+  left: 0;
+  transform: translateX(-100%);
+  background-image: linear-gradient(
+    90deg,
+    rgba(255, 255, 255, 0) 0,
+    rgba(255, 255, 255, 0.6) 20%,
+    rgba(255, 255, 255, 0.8) 60%,
+    rgba(255, 255, 255, 0)
+  );
+  animation: shimmer 1.6s infinite;
+  content: '';
+}
+
+@keyframes pulseGlow {
+  0%, 100% { opacity: 0.4; transform: scale(1); }
+  50% { opacity: 0.8; transform: scale(1.05); }
+}
+
+.animate-pulse-glow {
+  animation: pulseGlow 2.5s infinite ease-in-out;
+}
+
+
+/* ============================================================
+   UNIFIED MOBILE-FIRST RESPONSIVE SYSTEM
+   Targets: 320px–768px (phones & small tablets)
+   ============================================================ */
+
+/* 1. VIEWPORT LOCKDOWN — prevent all horizontal scroll */
+html, body, #root, main {
+  max-width: 100vw !important;
+  overflow-x: hidden !important;
+}
+
+/* 2. GLOBAL TEXT WRAPPING — prevent any text from causing overflow */
+.word-break-break-word {
+  word-break: break-word !important;
+  overflow-wrap: break-word !important;
+}
+
+/* 3. CARD TABLE SCROLL — tables inside cards scroll internally */
+.card .overflow-x-auto {
+  display: block !important;
+  width: 100% !important;
+  max-width: 100% !important;
+  overflow-x: auto !important;
+}
+
+/* ============================================================
+   MOBILE OVERRIDES (max-width: 640px)
+   ============================================================ */
+@media (max-width: 640px) {
+
+  /* --- A. Cards: force full-width, compact padding --- */
+  .card {
+    border-radius: 0.75rem !important;
+    max-width: 100% !important;
+    width: 100% !important;
+    box-sizing: border-box !important;
+    overflow: hidden !important;
+  }
+
+  /* --- B. Grids: single column, full-width, no overflow --- */
+  .grid {
+    grid-template-columns: 1fr !important;
+    width: 100% !important;
+    max-width: 100% !important;
+    overflow: hidden !important;
+  }
+  /* Preserve stat-card 2-col grids */
+  .grid.grid-cols-2 {
+    grid-template-columns: repeat(2, 1fr) !important;
+  }
+
+  /* Grid children must not escape bounds */
+  .grid > * {
+    min-width: 0 !important;
+    max-width: 100% !important;
+    width: 100% !important;
+    overflow: hidden !important;
+  }
+
+  /* --- C. Flex containers: wrap on mobile to prevent overflow --- */
+  .flex.items-center.justify-between,
+  .flex.items-start.justify-between {
+    flex-wrap: wrap !important;
+    gap: 0.5rem !important;
+    width: 100% !important;
+  }
+
+  /* Flex children should not push beyond container */
+  .flex > .flex-1,
+  .flex > [class*="col-span"] {
+    min-width: 0 !important;
+    width: 100% !important;
+  }
+
+  /* --- D. Spacing: compact on mobile --- */
+  .space-y-6 > :not([hidden]) ~ :not([hidden]) {
+    margin-top: 1rem !important;
+  }
+  .space-y-8 > :not([hidden]) ~ :not([hidden]) {
+    margin-top: 1.25rem !important;
+  }
+  .gap-6 {
+    gap: 1rem !important;
+  }
+  .gap-8 {
+    gap: 1.25rem !important;
+  }
+  .mb-8 {
+    margin-bottom: 1rem !important;
+  }
+  .mb-6 {
+    margin-bottom: 0.875rem !important;
+  }
+  .page-header {
+    margin-bottom: 1rem !important;
+  }
+
+  /* --- E. Inputs & Buttons: sleeker on mobile --- */
+  .input {
+    padding: 0.5rem 0.875rem !important;
+    font-size: 0.875rem !important;
+    width: 100% !important;
+    max-width: 100% !important;
+    box-sizing: border-box !important;
+  }
+  .btn, .btn-primary, .btn-secondary, .btn-danger {
+    padding: 0.5rem 1rem !important;
+    font-size: 0.8125rem !important;
+  }
+  select.input {
+    width: 100% !important;
+  }
+
+  /* --- F. Typography: tighter on mobile --- */
+  .page-title {
+    font-size: 1.375rem !important;
+    line-height: 1.3 !important;
+  }
+  .page-subtitle {
+    font-size: 0.8125rem !important;
+  }
+  h2 {
+    font-size: 1rem !important;
+    line-height: 1.4 !important;
+  }
+
+  /* --- G. Tables: prevent blowout --- */
+  table {
+    width: 100% !important;
+    max-width: 100% !important;
+    table-layout: auto !important;
+  }
+  th, td {
+    padding: 0.5rem 0.625rem !important;
+    font-size: 0.75rem !important;
+    word-break: break-word !important;
+  }
+
+  /* --- H. Dividers / list items: compact padding --- */
+  .divide-y > div,
+  .divide-y > a {
+    max-width: 100% !important;
+    overflow: hidden !important;
+  }
+
+  /* --- I. Modals: full-width on mobile --- */
+  .fixed.inset-0 .card {
+    max-width: calc(100vw - 2rem) !important;
+    max-height: 90vh !important;
+    overflow-y: auto !important;
+  }
+
+  /* --- J. Tabs: horizontally scrollable --- */
+  .border-b.overflow-x-auto {
+    -webkit-overflow-scrolling: touch !important;
+    scrollbar-width: none !important;
+  }
+  .border-b.overflow-x-auto::-webkit-scrollbar {
+    display: none !important;
+  }
+
+  /* --- K. Overflow-x-auto wrappers --- */
+  .overflow-x-auto {
+    width: 100% !important;
+    max-width: 100% !important;
+  }
+
+  /* --- L. Full-bleed text wrapping --- */
+  p, span, h1, h2, h3, h4, h5, h6, label, a, div {
+    overflow-wrap: break-word !important;
+    word-break: break-all !important;
+  }
+}
+
+/* ============================================================
+   NARROW MOBILE OVERRIDES (max-width: 400px, e.g. 320px phones)
+   ============================================================ */
+@media (max-width: 400px) {
+  /* Card padding is handled by React component classes to support full-bleed elements */
+  .input, .btn {
+    font-size: 0.8125rem !important;
+  }
+  .page-title {
+    font-size: 1.25rem !important;
+  }
+  th, td {
+    padding: 0.375rem 0.5rem !important;
+    font-size: 0.6875rem !important;
+  }
+}
+
+
